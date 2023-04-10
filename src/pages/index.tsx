@@ -6,7 +6,8 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data } = api.posts.getAll.useQuery();
+
   const user = useUser();
 
   return (
@@ -20,6 +21,9 @@ const Home: NextPage = () => {
         <div>
           {!user.isSignedIn && <SignInButton />}
           {!!user.isSignedIn && <SignOutButton />}
+    </div>
+    <div>
+      {data?.map(post => (<div key={post.id}>{post.content}</div>))}
     </div>
       </main>
     </>
